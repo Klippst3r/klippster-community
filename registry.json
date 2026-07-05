@@ -1,0 +1,38 @@
+{
+  "packs": [
+    {
+      "author": "Klippster examples",
+      "description": "Uppercases ASCII text. Reference WASM converter pack.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "13c4db3640626f65473ded96547dd93280a18e32ce7992cf4f3f541b6e251faa",
+          "url": "https://raw.githubusercontent.com/SimplyLiz/klippster-community/main/packs/com.example.text-uppercase/README.md"
+        },
+        {
+          "name": "convert.wasm",
+          "sha256": "eae4f78c1808cafb5419ee12693239b02584ab2a23ef648685bf4bed3523cf7e",
+          "url": "https://raw.githubusercontent.com/SimplyLiz/klippster-community/main/packs/com.example.text-uppercase/convert.wasm"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "c71ccfe002452e4b8d87aa3f3095c43c2a260319cf8d43d978c734d8bd72b9c5",
+          "url": "https://raw.githubusercontent.com/SimplyLiz/klippster-community/main/packs/com.example.text-uppercase/klippster.json"
+        }
+      ],
+      "id": "com.example.text-uppercase",
+      "inputs": [
+        "txt"
+      ],
+      "license": "MIT",
+      "name": "Uppercase Text",
+      "outputs": [
+        "txt"
+      ],
+      "path": "packs/com.example.text-uppercase",
+      "provider": "wasm",
+      "version": "1.0.0"
+    }
+  ],
+  "schemaVersion": 1
+}

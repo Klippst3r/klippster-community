@@ -1,0 +1,52 @@
+name: Validate registry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Validates every pack manifest and that registry.json matches the packs tree.
+      - name: Check registry.json is current and packs are valid
+        run: python3 scripts/build_registry.py --check
+
+      # Belt-and-suspenders: validate the index and each manifest against their JSON Schemas.
+      - name: JSON Schema validation
+        run: |
+          python3 -m pip install --quiet jsonschema
+          python3 - <<'PY'
+          import json, glob, sys
+          from jsonschema import validate, ValidationError
+
+          def load(path):
+              with open(path, encoding="utf-8") as f:
+                  return json.load(f)
+
+          errors = []
+          registry_schema = load("schema/registry.schema.json")
+          pack_schema = load("schema/klippster-pack.schema.json")
+
+          try:
+              validate(load("registry.json"), registry_schema)
+          except ValidationError as e:
+              errors.append(f"registry.json: {e.message}")
+
+          for manifest in glob.glob("packs/*/klippster.json"):
+              try:
+                  validate(load(manifest), pack_schema)
+              except ValidationError as e:
+                  errors.append(f"{manifest}: {e.message}")
+
+          for err in errors:
+              print(f"error: {err}", file=sys.stderr)
+          sys.exit(1 if errors else 0)
+          PY
