@@ -110,9 +110,27 @@ def build_pack_entry(pack_dir, folder_name):
     }
 
 
-def build_registry():
+def read_current_serial():
+    """The registrySerial already committed in registry.json (0 if none/unreadable).
+
+    Preserved across regeneration so a plain rebuild is byte-identical (--check stays deterministic);
+    it advances only on an explicit --bump at release time. See build_registry / sign_registry.sh.
+    """
+    try:
+        with open(REGISTRY_PATH, encoding="utf-8") as f:
+            return int(json.load(f).get("registrySerial", 0))
+    except (FileNotFoundError, ValueError, TypeError, json.JSONDecodeError):
+        return 0
+
+
+def build_registry(bump=False):
+    # Monotonic anti-rollback serial. Bumping advances it (min 1); a plain build preserves the
+    # committed value (floored to 1) so regeneration is reproducible.
+    current_serial = read_current_serial()
+    serial = current_serial + 1 if bump else max(current_serial, 1)
+
     if not os.path.isdir(PACKS_DIR):
-        return {"schemaVersion": SCHEMA_VERSION, "packs": []}, []
+        return {"registrySerial": serial, "schemaVersion": SCHEMA_VERSION, "packs": []}, []
 
     packs, errors, seen_ids = [], [], set()
     for folder_name in sorted(os.listdir(PACKS_DIR)):
@@ -130,7 +148,7 @@ def build_registry():
         seen_ids.add(entry["id"])
         packs.append(entry)
 
-    return {"schemaVersion": SCHEMA_VERSION, "packs": packs}, errors
+    return {"registrySerial": serial, "schemaVersion": SCHEMA_VERSION, "packs": packs}, errors
 
 
 def dumps(registry):
@@ -142,9 +160,12 @@ def main():
     parser = argparse.ArgumentParser(description="Generate/validate registry.json from packs/.")
     parser.add_argument("--check", action="store_true",
                         help="verify registry.json is up to date and all packs are valid; no write")
+    parser.add_argument("--bump", action="store_true",
+                        help="advance registrySerial by 1 (do this at release time, before signing)")
     args = parser.parse_args()
 
-    registry, errors = build_registry()
+    # --check must never bump — it has to compare against the committed serial, not a new one.
+    registry, errors = build_registry(bump=args.bump and not args.check)
     if errors:
         for err in errors:
             print(f"error: {err}", file=sys.stderr)

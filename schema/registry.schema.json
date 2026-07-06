@@ -4,10 +4,15 @@
   "title": "Klippster pack registry index",
   "description": "The registry.json index the Klippster app fetches to discover installable packs. Generated from the packs/ tree by scripts/build_registry.py.",
   "type": "object",
-  "required": ["schemaVersion", "packs"],
+  "required": ["schemaVersion", "registrySerial", "packs"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": { "type": "integer", "const": 1 },
+    "registrySerial": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic anti-rollback counter, advanced on each signed release. Clients refuse an index whose serial is lower than the highest they have already trusted."
+    },
     "packs": {
       "type": "array",
       "items": { "$ref": "#/definitions/pack" }
