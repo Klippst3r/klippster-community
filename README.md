@@ -42,6 +42,28 @@ python3 scripts/build_registry.py --check  # CI: fail if stale or a pack is inva
 
 Output is deterministic (sorted, no timestamps), so `--check` reliably detects drift.
 
+## Signing (issue #16)
+
+`registry.json` carries the SHA-256 of every pack file — but those checksums are only trustworthy if
+the index itself is authentic. So the maintainer signs `registry.json` with an offline Ed25519 key and
+commits a detached signature, [`registry.json.sig`](registry.json.sig). Klippster **pins the matching
+public key** and verifies the signature before trusting anything inside the index. The chain:
+
+```
+pinned public key → verified registry.json → trusted per-file SHA-256 → verified pack files
+```
+
+The private key is held offline by the maintainer and is never committed (see `.gitignore`) nor stored
+in CI. The public key lives at [`keys/registry_signing_pub.pem`](keys/registry_signing_pub.pem). To
+(re)sign after any change to the packs tree:
+
+```sh
+scripts/sign_registry.sh   # regenerates + signs; needs OpenSSL 3 (brew install openssl@3)
+```
+
+Then commit **both** `registry.json` and `registry.json.sig`. CI verifies the signature on `main`.
+Rotating the signing key requires a Klippster app release (the public key is compiled in).
+
 ## Contributing a pack
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). In short: add `packs/<your-id>/`, run the generator, open a

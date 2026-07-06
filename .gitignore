@@ -1,3 +1,7 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# Registry signing private key — NEVER commit. Held offline by the maintainer.
+registry_signing_key.pem
+*.key
