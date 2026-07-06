@@ -64,6 +64,25 @@ scripts/sign_registry.sh   # regenerates + signs; needs OpenSSL 3 (brew install 
 Then commit **both** `registry.json` and `registry.json.sig`. CI verifies the signature on `main`.
 Rotating the signing key requires a Klippster app release (the public key is compiled in).
 
+### What signing does and doesn't cover
+
+The signature authenticates the exact bytes of `registry.json`, so a hijacked host or MITM can't
+substitute a *different* index (and thus can't inject attacker-chosen checksums). Two limits are worth
+being explicit about:
+
+- **Rollback / replay is not yet prevented.** Because `registry.json` carries no monotonic version, an
+  attacker who can serve stale content could replay an *older, genuinely-signed* index — e.g. to hide a
+  newer pack or a pack update. It cannot forge new content (that wouldn't verify), only re-serve a
+  previously-valid state. The planned mitigation is a monotonic `registrySerial` inside the signed
+  payload that the maintainer bumps on release and the client refuses to move backwards; it's deferred
+  because it must be carried forward deterministically by `build_registry.py` (so `--check` stays
+  stable) and needs client-side persistence. Tracked under issue #16.
+- **Freshness/expiry is not signed.** There's no signed timestamp, so the client can't tell a current
+  index from an indefinitely-cached older one beyond the rollback point above.
+
+Both are availability/freshness concerns, not code-execution risks — every pack file is still
+individually SHA-256-verified against the authenticated index before install.
+
 ## Contributing a pack
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). In short: add `packs/<your-id>/`, run the generator, open a
