@@ -57,9 +57,11 @@ if [ ! -f "$PRIVATE_KEY" ]; then
     exit 1
 fi
 
-# --- Regenerate the index so we sign exactly what the packs tree produces -------------
-echo "regenerating $REGISTRY ..."
-python3 scripts/build_registry.py
+# --- Regenerate the index and advance the anti-rollback serial ------------------------
+# --bump increments registrySerial so this signed release supersedes the previous one; the
+# client refuses any index whose serial is lower than the highest it has already trusted.
+echo "regenerating + bumping $REGISTRY ..."
+python3 scripts/build_registry.py --bump
 
 # --- Sign the exact bytes on disk (raw Ed25519, no pre-hash) --------------------------
 echo "signing $REGISTRY -> $SIGNATURE ..."

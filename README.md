@@ -61,27 +61,29 @@ in CI. The public key lives at [`keys/registry_signing_pub.pem`](keys/registry_s
 scripts/sign_registry.sh   # regenerates + signs; needs OpenSSL 3 (brew install openssl@3)
 ```
 
-Then commit **both** `registry.json` and `registry.json.sig`. CI verifies the signature on `main`.
-Rotating the signing key requires a Klippster app release (the public key is compiled in).
+`sign_registry.sh` also advances a monotonic **`registrySerial`** (see below), so this signed release
+supersedes the previous one. Commit **both** `registry.json` and `registry.json.sig`. CI verifies the
+signature on `main`. Rotating the signing key requires a Klippster app release (the public key is
+compiled in).
 
-### What signing does and doesn't cover
+### Anti-rollback (`registrySerial`)
 
-The signature authenticates the exact bytes of `registry.json`, so a hijacked host or MITM can't
-substitute a *different* index (and thus can't inject attacker-chosen checksums). Two limits are worth
-being explicit about:
+`registry.json` carries a monotonic `registrySerial`. It lives *inside* the signed bytes, so it's
+authenticated with the rest of the index, and the app persists the highest serial it has ever trusted
+and **refuses any index whose serial is lower** — defeating a replay of an *older, genuinely-signed*
+index (e.g. to hide a newer pack) that a stale or hostile host could otherwise serve.
 
-- **Rollback / replay is not yet prevented.** Because `registry.json` carries no monotonic version, an
-  attacker who can serve stale content could replay an *older, genuinely-signed* index — e.g. to hide a
-  newer pack or a pack update. It cannot forge new content (that wouldn't verify), only re-serve a
-  previously-valid state. The planned mitigation is a monotonic `registrySerial` inside the signed
-  payload that the maintainer bumps on release and the client refuses to move backwards; it's deferred
-  because it must be carried forward deterministically by `build_registry.py` (so `--check` stays
-  stable) and needs client-side persistence. Tracked under issue #16.
-- **Freshness/expiry is not signed.** There's no signed timestamp, so the client can't tell a current
-  index from an indefinitely-cached older one beyond the rollback point above.
+Mechanics that keep this compatible with the deterministic `--check`:
 
-Both are availability/freshness concerns, not code-execution risks — every pack file is still
-individually SHA-256-verified against the authenticated index before install.
+- A plain `build_registry.py` **preserves** the committed serial (floored to 1), so regeneration is
+  byte-identical and `--check` still detects drift.
+- `build_registry.py --bump` advances it by one. `sign_registry.sh` runs `--bump`, so the serial moves
+  forward once per signed release — contributors never touch it (a plain rebuild leaves it unchanged).
+
+Not covered: there's no signed freshness/expiry timestamp, so within the rollback floor the client
+can't distinguish a current index from an indefinitely-cached recent one. That's an availability
+concern, not code execution — every pack file is still individually SHA-256-verified against the
+authenticated index before install.
 
 ## Contributing a pack
 
