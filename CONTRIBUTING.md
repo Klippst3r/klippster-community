@@ -1,8 +1,8 @@
 # Contributing a Format Pack
 
-Thanks for building a pack! The mechanical steps are below. The full **review and security policy**
-(what gets accepted, how trust works) is tracked in the main repo (issue #16) and will land here as
-this registry opens up.
+Thanks for building a pack! The mechanical steps are below. What a maintainer checks before accepting
+a pack is [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md); how trust and sandboxing work is
+[`SECURITY.md`](SECURITY.md).
 
 ## Steps
 
@@ -44,11 +44,10 @@ produces.
 - `registry.json` is exactly what the generator produces (no hand-edits, no drift).
 - `registry.json` and each manifest validate against their JSON Schemas in [`schema/`](schema/).
 
-## What a reviewer looks at (evolving — issue #16)
+## What a reviewer looks at
 
-- A clear `license` and a `README.md` describing what the pack does.
-- Manifest sanity: declared `inputs`/`outputs` match what the converter actually does.
-- Provider constraints: `wasm` packs must request **no** `permissions` (none are granted yet);
-  `template` packs may only use allowlisted options.
-- The pack does something useful and safe — even sandboxed code can produce garbage or huge output,
-  which the app's runtime guards bound but reviewers still sanity-check.
+The full, enforceable list is [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md). In short: a clear `license`
+and `README.md`; a manifest whose declared `inputs`/`outputs` match what the converter actually does;
+provider constraints (`wasm` packs request **no** `permissions`; `template` packs use only allowlisted
+options); and a pack that does something useful and safe (the app's runtime guards bound resource
+abuse, but reviewers still sanity-check behaviour).
