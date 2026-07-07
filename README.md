@@ -1,7 +1,7 @@
 # Klippster Community — Format Pack registry
 
-The community registry of **Format Packs** for [Klippster](https://github.com/SimplyLiz/Klippster).
-Distribution is **Git, not a backend** (the same model as the [Homebrew tap](https://github.com/SimplyLiz/homebrew-klippster)):
+The community registry of **Format Packs** for [Klippster](https://github.com/Klippst3r/Klippster).
+Distribution is **Git, not a backend** (the same model as the [Homebrew tap](https://github.com/Klippst3r/homebrew-klippster)):
 each pack is a folder here, and the app fetches a generated [`registry.json`](registry.json) index to
 discover, download, and verify packs.
 
@@ -10,7 +10,7 @@ discover, download, and verify packs.
 A converter Klippster can run — e.g. "PDF → Markdown" or "HTML → Markdown". A pack is a folder
 under [`packs/`](packs/) containing a `klippster.json` manifest plus its files (a sandboxed
 `convert.wasm` module, or a declarative template). See the
-[WASM ABI](https://github.com/SimplyLiz/Klippster/blob/main/docs/format-packs/wasm-abi.md) and the
+[WASM ABI](https://github.com/Klippst3r/Klippster/blob/main/docs/format-packs/wasm-abi.md) and the
 [`text-uppercase`](packs/com.example.text-uppercase) reference pack.
 
 ## Layout

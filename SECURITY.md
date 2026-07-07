@@ -59,7 +59,7 @@ pinned Ed25519 public key  →  verified registry.json  →  trusted per-file SH
 ## Reporting a problem
 
 - **A malicious or misbehaving pack in the registry:** open a private security advisory on the main
-  [Klippster repo](https://github.com/SimplyLiz/Klippster/security/advisories) (preferred), or email
+  [Klippster repo](https://github.com/Klippst3r/Klippster/security/advisories) (preferred), or email
   the maintainer. Do not open a public issue for an active abuse report.
 - **A signing/verification or index-integrity bug:** same channel — treat it as a vulnerability, not a
   normal issue.

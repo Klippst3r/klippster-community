@@ -7,7 +7,7 @@ a pack is [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md); how trust and sandboxing
 ## Steps
 
 1. **Build your pack.** Start from the [`text-uppercase`](packs/com.example.text-uppercase) reference
-   and the [WASM ABI](https://github.com/SimplyLiz/Klippster/blob/main/docs/format-packs/wasm-abi.md).
+   and the [WASM ABI](https://github.com/Klippst3r/Klippster/blob/main/docs/format-packs/wasm-abi.md).
    Your pack folder must contain a `klippster.json` manifest and its module.
 
 2. **Name the folder = the manifest `id`.** Use a reverse-DNS id you control, e.g.

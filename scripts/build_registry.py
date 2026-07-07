@@ -24,7 +24,7 @@ REGISTRY_PATH = os.path.join(REPO_ROOT, "registry.json")
 SCHEMA_VERSION = 1
 
 # Raw base for file download URLs. Update if the repo is renamed/moved.
-RAW_BASE = "https://raw.githubusercontent.com/SimplyLiz/klippster-community/main"
+RAW_BASE = "https://raw.githubusercontent.com/Klippst3r/klippster-community/main"
 
 # Provider → the manifest field that names its payload (mirrors PackManifest.validate in the app).
 PROVIDER_PAYLOAD_FIELD = {"native": "engine", "host": "binary", "template": "engine", "wasm": "module"}
