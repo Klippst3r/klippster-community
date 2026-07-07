@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.example.uppercase-text",
+  "name": "Uppercase Text",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "Uppercases ASCII text. Build-it-yourself WASM converter starter.",
+  "inputs": ["txt"],
+  "outputs": ["txt"],
+  "provider": "wasm",
+  "module": "convert.wasm",
+  "options": {
+    "entrypoint": "convert"
+  }
+}

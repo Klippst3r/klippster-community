@@ -1,7 +1,9 @@
 # Contributing a Format Pack
 
-Thanks for building a pack! The mechanical steps are below. What a maintainer checks before accepting
-a pack is [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md); how trust and sandboxing work is
+Thanks for building a pack! The mechanical steps are below. For a plain-language walkthrough from
+idea to PR, read [`docs/user/authoring-packs.md`](docs/user/authoring-packs.md) and copy a starter
+from [`examples/`](examples/) (one per provider kind). What a maintainer checks before accepting a
+pack is [`REVIEW_CHECKLIST.md`](REVIEW_CHECKLIST.md); how trust and sandboxing work is
 [`SECURITY.md`](SECURITY.md).
 
 ## Steps

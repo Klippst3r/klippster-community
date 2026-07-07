@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.example.pdf-to-markdown",
+  "name": "PDF → Markdown",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "Re-declares Klippster's built-in PDF conversion as a pack. Native-provider starter.",
+  "inputs": ["pdf"],
+  "outputs": ["md", "txt", "rtf"],
+  "provider": "native",
+  "engine": "klippster.pdf"
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.example.html-to-markdown",
+  "name": "HTML → Markdown (pandoc)",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "Converts HTML to Markdown via a user-installed pandoc. Host-provider starter.",
+  "inputs": ["html"],
+  "outputs": ["markdown"],
+  "provider": "host",
+  "binary": "pandoc"
+}
