@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.example.html-to-gfm",
+  "name": "HTML → GitHub Markdown",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "HTML to GitHub-flavoured Markdown via pandoc, unwrapped. Template-provider starter.",
+  "inputs": ["public.html"],
+  "outputs": ["net.daringfireball.markdown"],
+  "provider": "template",
+  "engine": "pandoc",
+  "options": {
+    "from": "html",
+    "to": "gfm",
+    "wrap": "none"
+  }
+}

@@ -1,17 +1,53 @@
 # Klippster Community — Format Pack registry
 
-The community registry of **Format Packs** for [Klippster](https://github.com/Klippst3r/Klippster).
+The community registry of **Format Packs** for [Klippster](https://github.com/Klippst3r/Klippster)
+(this repo: [`Klippst3r/klippster-community`](https://github.com/Klippst3r/klippster-community)).
 Distribution is **Git, not a backend** (the same model as the [Homebrew tap](https://github.com/Klippst3r/homebrew-klippster)):
 each pack is a folder here, and the app fetches a generated [`registry.json`](registry.json) index to
 discover, download, and verify packs.
 
+## New here? Start with the author guide
+
+If you want to **build a pack**, read the plain-language walkthrough first:
+**[`docs/user/authoring-packs.md`](docs/user/authoring-packs.md)** — idea → converter → pull request.
+Then copy a ready-made starter from **[`examples/`](examples/)** (one per provider kind). The rest of
+this README is the reference: what the repo is, how the index works, and how trust is enforced.
+
 ## What's a Format Pack?
 
-A converter Klippster can run — e.g. "PDF → Markdown" or "HTML → Markdown". A pack is a folder
-under [`packs/`](packs/) containing a `klippster.json` manifest plus its files (a sandboxed
-`convert.wasm` module, or a declarative template). See the
-[WASM ABI](https://github.com/Klippst3r/Klippster/blob/main/docs/format-packs/wasm-abi.md) and the
-[`text-uppercase`](packs/com.example.text-uppercase) reference pack.
+A converter Klippster can run — e.g. "PDF → Markdown" or "HTML → Markdown". Once installed, the
+conversion appears everywhere Klippster works: the Finder right-click menus (Paste / Copy / Convert)
+and the keyboard shortcuts. A pack is a folder under [`packs/`](packs/) containing a `klippster.json`
+manifest plus whatever files it ships. See the guest
+[WASM ABI](https://github.com/Klippst3r/Klippster/blob/main/docs/format-packs/wasm-abi.md), the
+[`text-uppercase`](packs/com.example.text-uppercase) reference pack, and the copy-and-adapt
+[`examples/`](examples/).
+
+## Provider kinds — how a pack's conversion runs
+
+Every pack declares one **provider**. Pick this first (details + starters in [`examples/`](examples/)):
+
+| Provider | How it runs | Author ships | Use when |
+|----------|-------------|--------------|----------|
+| **`wasm`** | Your compiled module, in a strict host sandbox | A `.wasm` module | You want a conversion you own that runs on every machine — **the default for third-party authors** |
+| **`host`** | A command-line tool the user installed (e.g. pandoc) | Manifest only | A great CLI tool already does the job |
+| **`template`** | A host engine driven by allowlisted options | Manifest only | You want to steer that tool (e.g. pandoc `from`/`to`/`wrap`) without code |
+| **`native`** | A converter built into the app | Manifest only | Referencing something the app already ships (maintainer territory) |
+
+**Today only `wasm` executes third-party conversion code.** `host`/`template` depend on machinery the
+app wires up, and `native` is app-provided — so for a converter you author end-to-end, use `wasm`.
+
+## Guest ABI v1 (for `wasm` packs)
+
+A `wasm` converter is a `wasm32` module that **imports nothing** and exports exactly four things:
+`memory`, `buffer_ptr() -> i32` (offset of a shared byte buffer), `buffer_cap() -> i32` (its
+capacity), and `convert(input_len) -> i32` (the conversion). The host writes `input_len` bytes into
+the buffer, calls `convert`, and reads back the returned length; a **negative** return signals an
+error. The entry point name is overridable via the manifest's `options.entrypoint` (**the only
+allowed wasm option**, defaulting to `convert`). No permissions are granted, and any declared
+`permissions` entry is refused. The runtime enforces input/output/memory ceilings and a wall-clock
+timeout. Full contract:
+[**WASM ABI v1**](https://github.com/Klippst3r/Klippster/blob/main/docs/format-packs/wasm-abi.md).
 
 ## Layout
 
@@ -21,12 +57,19 @@ packs/
     klippster.json             the manifest (schema/klippster-pack.schema.json)
     convert.wasm               the module, for provider: wasm
     README.md                  what the pack does
+examples/                    ← copy-and-adapt starters, one per provider kind
+  <kind>/                      OUTSIDE packs/ on purpose — never scanned into registry.json
+docs/user/                   ← plain-language author walkthrough
 registry.json                ← generated index the app fetches (do not hand-edit)
+registry.json.sig            ← detached Ed25519 signature over registry.json (maintainer)
 schema/
   registry.schema.json         the registry.json schema
   klippster-pack.schema.json   the pack manifest schema
 scripts/build_registry.py    ← regenerates + validates registry.json (stdlib only)
 ```
+
+Only [`packs/`](packs/) is scanned into `registry.json`. [`examples/`](examples/) and
+[`docs/`](docs/) are author material and never become installable content.
 
 ## registry.json
 
@@ -87,9 +130,13 @@ authenticated index before install.
 
 ## Contributing a pack
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). In short: add `packs/<your-id>/`, run the generator, open a
-PR. CI validates every manifest and that `registry.json` is up to date. The review + trust policy is
-tracked in the main repo (issue #16).
+Read the walkthrough first — [`docs/user/authoring-packs.md`](docs/user/authoring-packs.md) — and
+copy a starter from [`examples/`](examples/). The mechanical steps are in
+[CONTRIBUTING.md](CONTRIBUTING.md): add `packs/<your-id>/` (folder name **must** equal the manifest
+`id`), run the generator, commit your pack **and** the regenerated `registry.json`, and open a PR. CI
+validates every manifest against the schema and that `registry.json` is up to date; a maintainer then
+reviews the pack ([REVIEW_CHECKLIST.md](REVIEW_CHECKLIST.md)) and signs the release. You never sign
+and never touch `registrySerial`.
 
 ## Installing packs
 
