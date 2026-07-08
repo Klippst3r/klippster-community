@@ -34,6 +34,11 @@
         "inputs": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
         "outputs": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
         "path": { "type": "string", "pattern": "^packs/" },
+        "preview": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional URL of a rendered thumbnail (previews/<id>/sample.png), produced by the preview CI for PDF theme packs. Not part of the signed per-file checksums."
+        },
         "files": {
           "type": "array",
           "minItems": 1,

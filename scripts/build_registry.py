@@ -108,7 +108,7 @@ def build_pack_entry(pack_dir, folder_name):
             "url": f"{RAW_BASE}/{rel_pack}/{name}",
         })
 
-    return {
+    entry = {
         "id": manifest["id"],
         "name": manifest["name"],
         "version": manifest["version"],
@@ -121,6 +121,15 @@ def build_pack_entry(pack_dir, folder_name):
         "path": rel_pack,
         "files": files,
     }
+
+    # A rendered preview thumbnail lives outside packs/ (in previews/<id>/), so its bytes aren't in
+    # the signed per-file list — only this URL is (once the PNG is committed by the preview CI). It's
+    # generated here, not hand-added, so `--check` stays green.
+    preview_rel = f"previews/{folder_name}/sample.png"
+    if os.path.isfile(os.path.join(REPO_ROOT, preview_rel)):
+        entry["preview"] = f"{RAW_BASE}/{preview_rel}"
+
+    return entry
 
 
 def read_current_serial():

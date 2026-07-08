@@ -1,0 +1,65 @@
+name: preview-render
+
+# Renders the canonical sample document through each added/changed PDF **theme pack** and uploads
+# the resulting PNG(s) as an artifact. A theme that fails to compile fails this job, so it doubles
+# as validation. Commenting happens in preview-comment.yml.
+#
+# SECURITY: this runs on `pull_request`, so a fork PR gets a READ-ONLY token and NO secrets — safe
+# for rendering an untrusted contributor's LaTeX template. The privileged step (posting the comment,
+# pushing preview images) lives in preview-comment.yml, which runs on `workflow_run` and never
+# executes pack code.
+
+on:
+  pull_request:
+    paths:
+      - 'packs/**'
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Select render-relevant theme packs
+        id: select
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          git diff --name-only "$base" HEAD -- 'packs/**' > changed.txt || true
+          python3 scripts/select_preview_packs.py < changed.txt > packs.json
+          count=$(python3 -c "import json;print(len(json.load(open('packs.json'))))")
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Packs to render: $(cat packs.json)"
+
+      - name: Install pandoc, poppler and tectonic
+        if: steps.select.outputs.count != '0'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc poppler-utils
+          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+          sudo mv tectonic /usr/local/bin/
+          tectonic --version
+
+      - name: Render previews
+        if: steps.select.outputs.count != '0'
+        run: |
+          mkdir -p out/previews
+          for id in $(python3 -c "import json;[print(x) for x in json.load(open('packs.json'))]"); do
+            echo "::group::Rendering $id"
+            python3 scripts/render_preview.py "packs/$id" "out/previews/$id.png"
+            echo "::endgroup::"
+          done
+          cp packs.json out/packs.json
+          echo '${{ github.event.pull_request.number }}' > out/pr.txt
+
+      - name: Upload preview artifact
+        if: steps.select.outputs.count != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-previews
+          path: out/
+          retention-days: 7
