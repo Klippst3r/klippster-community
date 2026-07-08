@@ -57,6 +57,13 @@ if [ ! -f "$PRIVATE_KEY" ]; then
     exit 1
 fi
 
+# --- Refresh theme-pack preview thumbnails (best-effort) ------------------------------
+# Renders previews/<id>/sample.png for each PDF theme pack, so build_registry.py can attach each
+# pack's `preview` URL and the thumbnails ship inside this signed release. Skips silently if the
+# render tooling (pandoc + a PDF engine + poppler) isn't installed.
+echo "refreshing theme previews ..."
+scripts/render_all_previews.sh || true
+
 # --- Regenerate the index and advance the anti-rollback serial ------------------------
 # --bump increments registrySerial so this signed release supersedes the previous one; the
 # client refuses any index whose serial is lower than the highest it has already trusted.

@@ -1,0 +1,97 @@
+name: preview-comment
+
+# Privileged companion to preview-render.yml. Runs on `workflow_run` (in the BASE repo context, so
+# it has a write token even for fork PRs) and NEVER checks out or executes pack code — it only
+# consumes the artifact preview-render produced. It publishes the preview PNG(s) to a dedicated
+# `previews` branch (so they have a stable raw URL) and upserts a single sticky comment on the PR,
+# updating it in place on every re-render.
+
+on:
+  workflow_run:
+    workflows: ["preview-render"]
+    types: [completed]
+
+permissions:
+  contents: write        # push preview images to the `previews` branch
+  pull-requests: write   # upsert the sticky comment
+
+jobs:
+  comment:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download preview artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: theme-previews
+          path: out
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Check artifact
+        id: check
+        run: |
+          if [ -d out/previews ] && ls out/previews/*.png >/dev/null 2>&1; then
+            echo "pr=$(cat out/pr.txt)" >> "$GITHUB_OUTPUT"
+            echo "have=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "have=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish preview images to the previews branch
+        if: steps.check.outputs.have == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ steps.check.outputs.pr }}
+        run: |
+          set -e
+          repo_url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          work=$(mktemp -d)
+          if ! git clone --depth 1 --branch previews "$repo_url" "$work" 2>/dev/null; then
+            git clone --depth 1 "$repo_url" "$work"
+            git -C "$work" checkout --orphan previews
+            git -C "$work" rm -rf . >/dev/null 2>&1 || true
+            printf '# Auto-generated theme preview images\n\nManaged by preview-comment.yml — do not edit by hand.\n' > "$work/README.md"
+          fi
+          git -C "$work" config user.name "klippster-preview-bot"
+          git -C "$work" config user.email "bot@users.noreply.github.com"
+          mkdir -p "$work/pr-$PR"
+          rm -f "$work/pr-$PR"/*.png
+          cp out/previews/*.png "$work/pr-$PR/"
+          git -C "$work" add -A
+          if ! git -C "$work" diff --cached --quiet; then
+            git -C "$work" commit -m "preview: PR #$PR"
+            git -C "$work" push origin previews
+          else
+            echo "Previews unchanged — nothing to push."
+          fi
+
+      - name: Upsert sticky preview comment
+        if: steps.check.outputs.have == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const pr = Number(fs.readFileSync('out/pr.txt', 'utf8').trim());
+            const packs = JSON.parse(fs.readFileSync('out/packs.json', 'utf8'));
+            const { owner, repo } = context.repo;
+            const marker = '<!-- klippster-preview -->';
+            const bust = Date.now();  // cache-bust so an updated image shows immediately
+
+            let body = `${marker}\n### 🎨 Theme preview\n\nRendered from the canonical sample document:\n\n`;
+            for (const id of packs) {
+              const url = `https://raw.githubusercontent.com/${owner}/${repo}/previews/pr-${pr}/${id}.png?v=${bust}`;
+              body += `**${id}**\n\n<img src="${url}" width="380" alt="${id} preview">\n\n`;
+            }
+            body += `_Updated on each commit. This is also a build check — a theme that doesn't compile fails CI._`;
+
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number: pr });
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr, body });
+            }

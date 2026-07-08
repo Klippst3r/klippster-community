@@ -110,6 +110,14 @@ README: with no engine present, the conversion won't run. If you want a converte
 machine with nothing to install, that's the `wasm` kind instead — but `wasm` can't produce a
 LaTeX-typeset PDF, so for polished PDF output a theme pack is the way.
 
+**Automatic previews.** When you open (or update) a pull request that adds or changes a PDF theme
+pack, CI renders a canonical sample document through your theme and posts the resulting thumbnail as
+a comment on the PR — updated in place each time you push. It's also a build check: a theme that
+doesn't compile fails the PR, so you'll see the error before a human reviews it. Once merged, that
+thumbnail ships in the registry so the in-app pack browser can show it. If you'd rather preview your
+theme on your *own* content, drop a `sample.md` inside your pack folder and it's used instead of the
+default sample. You can render it yourself with `python3 scripts/render_preview.py packs/<your-id> /tmp/out.png`.
+
 ## 5. Test your pack locally before submitting
 
 The registry is curated, so there's no "sideload from the internet" path — you place the pack into
