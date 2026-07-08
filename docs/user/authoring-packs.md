@@ -80,6 +80,36 @@ manifest. Be honest with your users in the pack's README: the tool has to be ins
 conversion to work, and you can only steer it with the small set of approved options. If you'd rather
 not depend on the user's setup, prefer the `wasm` kind.
 
+### PDF theme packs (Markdown to a styled PDF)
+
+A template pack can also render **Markdown to a beautifully typeset PDF**. If your pack sets its
+output to PDF and points at a template file you ship, Klippster runs the Markdown through pandoc and a
+PDF engine, styling the result with your template. This is how you give reports, notes, or documents a
+consistent house look — brand colours, fonts, margins, headings, headers and footers — with **no
+limit on styling**, because you own the whole document.
+
+The ready-to-copy starter is
+[`examples/com.example.markdown-to-pdf-theme`](../../examples/com.example.markdown-to-pdf-theme/). What
+makes it a PDF theme pack:
+
+- Its output is a PDF, and it names a template file it ships (in the starter, a file called
+  `theme.latex`). The template file lives right next to the manifest, and you name it by its bare
+  filename — no folders, no leading dots.
+- The template is a **standard pandoc LaTeX template**: an ordinary LaTeX document with a few slots
+  pandoc fills in. The important ones are the place your converted content goes (`$body$`), and the
+  spot where pandoc drops the colouring it needs for code blocks (`$highlighting-macros$`). The
+  starter also defines a small `\tightlist` command, because pandoc expects it around tight lists —
+  copy that line as-is unless you know you don't need it.
+- Everything else in the template is plain LaTeX you control. Change the colours, the fonts, the
+  heading styles, the page size — anything the PDF engine understands.
+
+The honest catch is the same as any host-driven pack: **it needs tools installed**. A PDF theme pack
+depends on pandoc **and** a PDF engine (a LaTeX or Typst engine). The easiest engine to install is
+Tectonic — on a Mac, `brew install pandoc tectonic` gets you both. Say so plainly in your pack's
+README: with no engine present, the conversion won't run. If you want a converter that works on every
+machine with nothing to install, that's the `wasm` kind instead — but `wasm` can't produce a
+LaTeX-typeset PDF, so for polished PDF output a theme pack is the way.
+
 ## 5. Test your pack locally before submitting
 
 The registry is curated, so there's no "sideload from the internet" path — you place the pack into

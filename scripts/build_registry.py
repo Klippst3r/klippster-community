@@ -72,6 +72,12 @@ def validate_manifest(manifest, folder_name):
         module = manifest["module"]
         if "/" in module or module.startswith(".."):
             raise PackError(f"module '{module}' must be a bare filename inside the pack folder")
+    # For a template pack that ships a template file (e.g. a pandoc LaTeX theme), it must be a
+    # bare filename inside the pack folder — same rule as the wasm module.
+    if provider == "template":
+        template = (manifest.get("options") or {}).get("template")
+        if template and ("/" in template or template.startswith("..")):
+            raise PackError(f"template '{template}' must be a bare filename inside the pack folder")
 
 
 def build_pack_entry(pack_dir, folder_name):
@@ -82,6 +88,13 @@ def build_pack_entry(pack_dir, folder_name):
         module_path = os.path.join(pack_dir, manifest["module"])
         if not os.path.isfile(module_path):
             raise PackError(f"module file '{manifest['module']}' not found in the pack folder")
+
+    if manifest["provider"] == "template":
+        template = (manifest.get("options") or {}).get("template")
+        if template:
+            template_path = os.path.join(pack_dir, template)
+            if not os.path.isfile(template_path):
+                raise PackError(f"template file '{template}' not found in the pack folder")
 
     rel_pack = f"packs/{folder_name}"
     files = []

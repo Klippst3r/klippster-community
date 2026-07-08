@@ -36,7 +36,7 @@
     "module": { "type": "string", "description": "WASM module filename for the wasm provider." },
     "options": {
       "type": "object",
-      "description": "Engine-specific options. For template/pandoc: from, to, wrap (allowlisted).",
+      "description": "Engine-specific options. For template/pandoc: from, to, wrap (allowlisted); a PDF theme pack (outputs pdf) also recognises template (a bare template filename shipped in the pack) and pdf-engine.",
       "additionalProperties": { "type": "string" }
     },
     "permissions": { "type": "array", "items": { "type": "string" } }

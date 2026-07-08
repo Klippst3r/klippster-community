@@ -10,6 +10,7 @@ the folder to your pack `id`, and follow [CONTRIBUTING.md](../CONTRIBUTING.md).
 | [`com.example.uppercase-text`](com.example.uppercase-text/) | `wasm` | A full build-it-yourself sandboxed converter — manifest, Rust source, build script | Yes (`.wasm` you build) |
 | [`com.example.html-to-markdown`](com.example.html-to-markdown/) | `host` | Delegating to a user-installed binary (pandoc) | No |
 | [`com.example.html-to-gfm`](com.example.html-to-gfm/) | `template` | A declarative pack that drives a host engine with allowlisted options | No |
+| [`com.example.markdown-to-pdf-theme`](com.example.markdown-to-pdf-theme/) | `template` | A PDF theme: renders Markdown to PDF (`outputs: ["pdf"]`) through a shipped pandoc LaTeX template | No (ships a `.latex` template) |
 | [`com.example.pdf-to-markdown`](com.example.pdf-to-markdown/) | `native` | Re-declaring a converter the app already ships | No |
 
 ## Which provider should I pick?

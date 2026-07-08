@@ -1,0 +1,15 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$highlighting-macros$
+\definecolor{klippsterblue}{RGB}{20,90,170}
+\titleformat{\section}{\Large\bfseries\color{klippsterblue}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{klippsterblue}}{}{0em}{}
+\hypersetup{colorlinks=true, linkcolor=klippsterblue, urlcolor=klippsterblue}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}
+\begin{document}
+$body$
+\end{document}

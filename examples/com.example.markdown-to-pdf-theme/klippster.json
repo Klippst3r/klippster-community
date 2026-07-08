@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.example.markdown-to-pdf-theme",
+  "name": "Blue Report Theme",
+  "version": "1.0.0",
+  "description": "Renders Markdown to a LaTeX-typeset PDF with blue headings and coloured links.",
+  "provider": "template",
+  "engine": "pandoc",
+  "inputs": ["markdown"],
+  "outputs": ["pdf"],
+  "options": { "template": "theme.latex", "from": "gfm" }
+}
