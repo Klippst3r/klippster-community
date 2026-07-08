@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.klippster.tech-docs",
+  "name": "Tech Docs",
+  "version": "1.0.0",
+  "author": "Klippster",
+  "license": "MIT",
+  "description": "A code-forward documentation theme: Heros sans body, teal headings, and Inconsolata code in a shaded box.",
+  "provider": "template",
+  "engine": "pandoc",
+  "inputs": ["markdown"],
+  "outputs": ["pdf"],
+  "options": { "template": "theme.latex", "from": "gfm" }
+}
