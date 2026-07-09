@@ -13,6 +13,9 @@ on:
   pull_request:
     paths:
       - 'packs/**'
+      - 'previews/sample.md'
+      - 'scripts/render_preview.py'
+      - 'scripts/select_preview_packs.py'
 
 permissions:
   contents: read
@@ -29,7 +32,9 @@ jobs:
         id: select
         run: |
           base='${{ github.event.pull_request.base.sha }}'
-          git diff --name-only "$base" HEAD -- 'packs/**' > changed.txt || true
+          # Feed ALL changed paths so the selector can spot shared-input changes (sample/script)
+          # that should re-render every theme, not just packs whose own files changed.
+          git diff --name-only "$base" HEAD > changed.txt || true
           python3 scripts/select_preview_packs.py < changed.txt > packs.json
           count=$(python3 -c "import json;print(len(json.load(open('packs.json'))))")
           echo "count=$count" >> "$GITHUB_OUTPUT"
@@ -39,7 +44,7 @@ jobs:
         if: steps.select.outputs.count != '0'
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc poppler-utils
+          sudo apt-get install -y pandoc poppler-utils python3-pil
           curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
           sudo mv tectonic /usr/local/bin/
           tectonic --version

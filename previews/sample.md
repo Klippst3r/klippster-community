@@ -1,8 +1,11 @@
 # Aurora — v2.0 Release Report
 
-**Aurora** is a fast, private notes app. This report covers the *v2.0* release —
-what shipped, how it performs, and what comes next. Full details live on
-[the release page](https://example.com/aurora/releases).
+**Aurora** is a fast, private notes app.[^scope] This report covers the ***v2.0***
+release — what shipped, how it performs, and what comes next. Full details live on
+[the release page](https://example.com/aurora/releases), or visit
+https://aurora.example.com directly.
+
+[^scope]: All figures cover the first 30 days after general availability.
 
 ---
 
@@ -23,16 +26,15 @@ what shipped, how it performs, and what comes next. Full details live on
 
 ## Adoption
 
-Numbers cover the first 30 days after launch.
+| Metric              |    v1.4 |    v2.0 |  Change  |
+| :------------------ | ------: | ------: | :------: |
+| Daily active users  |  12,400 |  18,900 |   +52%   |
+| Median sync latency |  820 ms |  240 ms |   −71%   |
+| Crash-free sessions |  99.1 % |  99.8 % | +0.7 pt  |
 
-| Metric              |    v1.4 |    v2.0 |  Change |
-| ------------------- | ------: | ------: | ------: |
-| Daily active users  |  12,400 |  18,900 |    +52% |
-| Median sync latency |  820 ms |  240 ms |    −71% |
-| Crash-free sessions |  99.1 % |  99.8 % | +0.7 pt |
-
-> **Note.** Latency is measured on the p50 device profile. Your mileage will vary
-> with network conditions and note size.
+> **Note.** Latency is measured on the p50 device profile.
+>
+> Your mileage will vary with network conditions and note size.
 
 ## Rollout checklist
 
@@ -40,9 +42,18 @@ Numbers cover the first 30 days after launch.
 - [x] Migration dry-run on a production copy
 - [ ] Post-launch retrospective
 
-## Migration snippet
+## Getting it
 
-The store upgrades itself on first launch; the core step looks like this:
+Install or update from the command line:
+
+```bash
+brew install --cask aurora
+aurora doctor   # verify the schema after upgrading
+```
+
+#### Under the hood
+
+The store upgrades itself on first launch; the core migration step is:
 
 ```python
 def migrate(db, from_version):
@@ -51,8 +62,6 @@ def migrate(db, from_version):
         db.reindex("notes_fts")
     return CURRENT_VERSION
 ```
-
-Afterwards, run `aurora doctor` to confirm the schema is healthy.
 
 ## What's next
 
