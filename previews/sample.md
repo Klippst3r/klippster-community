@@ -36,6 +36,10 @@ https://aurora.example.com directly.
 >
 > Your mileage will vary with network conditions and note size.
 
+Conflict resolution scales as $O(n \log n)$ in the number of edits, bounded by
+
+$$T(n) = 2\,T(n/2) + O(n).$$
+
 ## Rollout checklist
 
 - [x] Internal QA sign-off

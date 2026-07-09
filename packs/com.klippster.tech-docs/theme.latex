@@ -6,16 +6,31 @@
 \usepackage{xcolor}
 \usepackage{longtable,booktabs,array,calc}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{soul}
 \usepackage{framed}
+\usepackage{fvextra}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% keep included images within the text block
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi%
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+\makeatother
 \definecolor{accent}{RGB}{13,110,90}
 \definecolor{shadecolor}{RGB}{240,242,244}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 $highlighting-macros$
+\fvset{breaklines=true,breakanywhere=true}
 \makeatletter
 \@ifundefined{Shaded}{\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}}{\renewenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}}
 \makeatother

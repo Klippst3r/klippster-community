@@ -49,7 +49,7 @@
         },
         {
           "name": "theme.latex",
-          "sha256": "63d107a05a59ba395182a80ed95060b4a723f9673c383dd93d177d2537089e62",
+          "sha256": "99111d52f5595956093c9851deee151a7540b87d1a321eb8eb69c81984b311ed",
           "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.academic/theme.latex"
         }
       ],
@@ -82,7 +82,7 @@
         },
         {
           "name": "theme.latex",
-          "sha256": "a66cd3564ec63b9641d62b24089571dd612419229f19dbebd2bba14583074731",
+          "sha256": "be7dcd9da6b94852b388c63cb88ea3d9040535c8637f47bde4239e5bd5f26895",
           "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.clean-report/theme.latex"
         }
       ],
@@ -115,7 +115,7 @@
         },
         {
           "name": "theme.latex",
-          "sha256": "0bdd7f49d1cb1a7d75621b6a41923ffd29b5df94e9b5cb740b51635ab499baf1",
+          "sha256": "77c43d76d7259cc2f5aaa47689b7c00f580d2d1b9081206ed768b85e41cc46cd",
           "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.tech-docs/theme.latex"
         }
       ],
