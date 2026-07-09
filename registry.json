@@ -63,6 +63,7 @@
         "pdf"
       ],
       "path": "packs/com.klippster.academic",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.academic/sample.png",
       "provider": "template",
       "version": "1.0.0"
     },
@@ -96,6 +97,7 @@
         "pdf"
       ],
       "path": "packs/com.klippster.clean-report",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.clean-report/sample.png",
       "provider": "template",
       "version": "1.0.0"
     },
@@ -129,10 +131,11 @@
         "pdf"
       ],
       "path": "packs/com.klippster.tech-docs",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.tech-docs/sample.png",
       "provider": "template",
       "version": "1.0.0"
     }
   ],
-  "registrySerial": 2,
+  "registrySerial": 3,
   "schemaVersion": 1
 }
