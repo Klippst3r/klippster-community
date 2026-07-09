@@ -19,11 +19,12 @@ jobs:
       - name: Check registry.json is current and packs are valid
         run: python3 scripts/build_registry.py --check
 
-      # Verify the registry signature (issue #16). Only on main: the maintainer signs offline
-      # when landing, so PRs from contributors legitimately carry a stale/absent registry.json.sig.
+      # Verify the registry signature (issue #16) on EVERY push and pull request. A pack PR that
+      # changes registry.json makes this fail until the maintainer re-signs offline on the branch —
+      # that's the intended gate: a stale-signature index can never be merged to main. (Non-pack PRs
+      # don't touch registry.json, so its existing signature still verifies and this passes.)
       # ubuntu-latest ships OpenSSL 3, which supports Ed25519 `pkeyutl -rawin`.
       - name: Verify registry signature
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           openssl version
           openssl pkeyutl -verify -pubin -inkey keys/registry_signing_pub.pem -rawin \
