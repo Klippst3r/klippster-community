@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.klippster.clean-report",
+  "name": "Clean Report",
+  "version": "1.0.0",
+  "author": "Klippster",
+  "license": "MIT",
+  "description": "A clean, professional report theme: Palatino serif body, blue sans headings, subtle shaded code blocks, and a footer rule with page numbers.",
+  "provider": "template",
+  "engine": "pandoc",
+  "inputs": ["markdown"],
+  "outputs": ["pdf"],
+  "options": { "template": "theme.latex", "from": "gfm" }
+}
