@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.klippster.academic",
+  "name": "Academic",
+  "version": "1.0.0",
+  "author": "Klippster",
+  "license": "MIT",
+  "description": "A classic academic article theme: Times serif, numbered sections, indented justified paragraphs, and restrained links.",
+  "provider": "template",
+  "engine": "pandoc",
+  "inputs": ["markdown"],
+  "outputs": ["pdf"],
+  "options": { "template": "theme.latex", "from": "gfm" }
+}
