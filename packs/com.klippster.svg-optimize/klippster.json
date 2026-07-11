@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.klippster.app/v1/klippster.json",
+  "id": "com.klippster.svg-optimize",
+  "name": "Optimize SVG",
+  "version": "1.0.0",
+  "author": "Klippster",
+  "license": "MIT",
+  "description": "Shrinks SVG files by removing editor cruft — comments, the XML declaration and DOCTYPE, <metadata>, Inkscape/Sodipodi elements and namespaces, and indentation whitespace — while preserving how the image renders. A pure-Rust WASM converter, fully sandboxed.",
+  "inputs": ["svg"],
+  "outputs": ["svg"],
+  "provider": "wasm",
+  "module": "convert.wasm"
+}

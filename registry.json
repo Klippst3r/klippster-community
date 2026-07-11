@@ -103,6 +103,39 @@
     },
     {
       "author": "Klippster",
+      "description": "Shrinks SVG files by removing editor cruft — comments, the XML declaration and DOCTYPE, <metadata>, Inkscape/Sodipodi elements and namespaces, and indentation whitespace — while preserving how the image renders. A pure-Rust WASM converter, fully sandboxed.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "a9e3ca6b092d9da5986b7daa6825508655802165c59361bde51e942b1c88d3eb",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.svg-optimize/README.md"
+        },
+        {
+          "name": "convert.wasm",
+          "sha256": "9076255df759a547838cf02571428a11bc7ddd6e1b7aff97f15357c966db867d",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.svg-optimize/convert.wasm"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "d6ac34635aa327c7f68b62f978f15e43cf51e35c2450ce7dbeb84b8937bc8412",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.svg-optimize/klippster.json"
+        }
+      ],
+      "id": "com.klippster.svg-optimize",
+      "inputs": [
+        "svg"
+      ],
+      "license": "MIT",
+      "name": "Optimize SVG",
+      "outputs": [
+        "svg"
+      ],
+      "path": "packs/com.klippster.svg-optimize",
+      "provider": "wasm",
+      "version": "1.0.0"
+    },
+    {
+      "author": "Klippster",
       "description": "A code-forward documentation theme: Heros sans body, teal headings, and Inconsolata code in a shaded box.",
       "files": [
         {
@@ -136,6 +169,6 @@
       "version": "1.0.0"
     }
   ],
-  "registrySerial": 3,
+  "registrySerial": 4,
   "schemaVersion": 1
 }
