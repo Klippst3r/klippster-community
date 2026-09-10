@@ -19,7 +19,7 @@ reviewed further.
 ## Manual — identity & licensing
 
 - [ ] `id` is a reverse-DNS name the contributor plausibly controls (no squatting on someone else's
-      namespace, e.g. `com.apple.*`, `com.klippster.*`).
+      namespace, e.g. `com.apple.*`, `app.klippster.*`).
 - [ ] A clear `license` is declared and is a recognised open-source license; any bundled third-party
       code/assets are compatible with it and attributed.
 - [ ] A `README.md` describes what the pack does and, for anything non-trivial, how it works.

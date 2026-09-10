@@ -1,6 +1,141 @@
 {
   "packs": [
     {
+      "author": "Klippster",
+      "description": "A classic academic article theme: Times serif, numbered sections, indented justified paragraphs, and restrained links.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "5c87967e51029c7d444e0ef93fb54f0cc94b58b9864a2b16019cacfd44cf6c0c",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.academic/README.md"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "b805fda9a005a559b1bfc91a03b831d219dec515eabb75389e4c30f381955879",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.academic/klippster.json"
+        },
+        {
+          "name": "theme.latex",
+          "sha256": "99111d52f5595956093c9851deee151a7540b87d1a321eb8eb69c81984b311ed",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.academic/theme.latex"
+        }
+      ],
+      "id": "app.klippster.academic",
+      "inputs": [
+        "markdown"
+      ],
+      "license": "MIT",
+      "name": "Academic",
+      "outputs": [
+        "pdf"
+      ],
+      "path": "packs/app.klippster.academic",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/app.klippster.academic/sample.png",
+      "provider": "template",
+      "version": "1.0.0"
+    },
+    {
+      "author": "Klippster",
+      "description": "A clean, professional report theme: Palatino serif body, blue sans headings, subtle shaded code blocks, and a footer rule with page numbers.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "835a1983cbf4c3b939e7886ca2a7e996349d461b996eded9fbbcd3b44eab111e",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.clean-report/README.md"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "6ea22ebec31634c068a946342b0f7c4080d4bb79cc2b9daf4cfa0457006c59bb",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.clean-report/klippster.json"
+        },
+        {
+          "name": "theme.latex",
+          "sha256": "be7dcd9da6b94852b388c63cb88ea3d9040535c8637f47bde4239e5bd5f26895",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.clean-report/theme.latex"
+        }
+      ],
+      "id": "app.klippster.clean-report",
+      "inputs": [
+        "markdown"
+      ],
+      "license": "MIT",
+      "name": "Clean Report",
+      "outputs": [
+        "pdf"
+      ],
+      "path": "packs/app.klippster.clean-report",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/app.klippster.clean-report/sample.png",
+      "provider": "template",
+      "version": "1.0.0"
+    },
+    {
+      "author": "Klippster",
+      "description": "Shrinks SVG files by removing editor cruft — comments, the XML declaration and DOCTYPE, <metadata>, Inkscape/Sodipodi elements and namespaces, and indentation whitespace — while preserving how the image renders. A pure-Rust WASM converter, fully sandboxed.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "7423b679a6a72a4f3020bd2a08e08643ac0bde356574943387f3a31675cb3019",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.svg-optimize/README.md"
+        },
+        {
+          "name": "convert.wasm",
+          "sha256": "9076255df759a547838cf02571428a11bc7ddd6e1b7aff97f15357c966db867d",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.svg-optimize/convert.wasm"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "871ae78867f041914ea09d8b3472f9e00b9194f1c398c5127033fdddc06bfe88",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.svg-optimize/klippster.json"
+        }
+      ],
+      "id": "app.klippster.svg-optimize",
+      "inputs": [
+        "svg"
+      ],
+      "license": "MIT",
+      "name": "Optimize SVG",
+      "outputs": [
+        "svg"
+      ],
+      "path": "packs/app.klippster.svg-optimize",
+      "provider": "wasm",
+      "version": "1.0.0"
+    },
+    {
+      "author": "Klippster",
+      "description": "A code-forward documentation theme: Heros sans body, teal headings, and Inconsolata code in a shaded box.",
+      "files": [
+        {
+          "name": "README.md",
+          "sha256": "e41f66813bb4afb51f176b19ff52209c05d4e29d75cd9c10d0b3d8665563bc82",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.tech-docs/README.md"
+        },
+        {
+          "name": "klippster.json",
+          "sha256": "e59188e1e9c238be1172d229745ee9f998b75a48c8f1dd7f76086dd85159f273",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.tech-docs/klippster.json"
+        },
+        {
+          "name": "theme.latex",
+          "sha256": "77c43d76d7259cc2f5aaa47689b7c00f580d2d1b9081206ed768b85e41cc46cd",
+          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.tech-docs/theme.latex"
+        }
+      ],
+      "id": "app.klippster.tech-docs",
+      "inputs": [
+        "markdown"
+      ],
+      "license": "MIT",
+      "name": "Tech Docs",
+      "outputs": [
+        "pdf"
+      ],
+      "path": "packs/app.klippster.tech-docs",
+      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/app.klippster.tech-docs/sample.png",
+      "provider": "template",
+      "version": "1.0.0"
+    },
+    {
       "author": "Klippster examples",
       "description": "Uppercases ASCII text. Reference WASM converter pack.",
       "files": [
@@ -32,110 +167,8 @@
       "path": "packs/com.example.text-uppercase",
       "provider": "wasm",
       "version": "1.0.0"
-    },
-    {
-      "author": "Klippster",
-      "description": "A classic academic article theme: Times serif, numbered sections, indented justified paragraphs, and restrained links.",
-      "files": [
-        {
-          "name": "README.md",
-          "sha256": "5c87967e51029c7d444e0ef93fb54f0cc94b58b9864a2b16019cacfd44cf6c0c",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.academic/README.md"
-        },
-        {
-          "name": "klippster.json",
-          "sha256": "a01677b15dbd3f9a4abcb0dad21c1d633a63e27d37946a1771a8056aa03ec08b",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.academic/klippster.json"
-        },
-        {
-          "name": "theme.latex",
-          "sha256": "99111d52f5595956093c9851deee151a7540b87d1a321eb8eb69c81984b311ed",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.academic/theme.latex"
-        }
-      ],
-      "id": "com.klippster.academic",
-      "inputs": [
-        "markdown"
-      ],
-      "license": "MIT",
-      "name": "Academic",
-      "outputs": [
-        "pdf"
-      ],
-      "path": "packs/com.klippster.academic",
-      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.academic/sample.png",
-      "provider": "template",
-      "version": "1.0.0"
-    },
-    {
-      "author": "Klippster",
-      "description": "A clean, professional report theme: Palatino serif body, blue sans headings, subtle shaded code blocks, and a footer rule with page numbers.",
-      "files": [
-        {
-          "name": "README.md",
-          "sha256": "835a1983cbf4c3b939e7886ca2a7e996349d461b996eded9fbbcd3b44eab111e",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.clean-report/README.md"
-        },
-        {
-          "name": "klippster.json",
-          "sha256": "5067c3cce022433fd545f0ca4531e0cf8ca819400a9c9185ae22ed0df74b5862",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.clean-report/klippster.json"
-        },
-        {
-          "name": "theme.latex",
-          "sha256": "be7dcd9da6b94852b388c63cb88ea3d9040535c8637f47bde4239e5bd5f26895",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.clean-report/theme.latex"
-        }
-      ],
-      "id": "com.klippster.clean-report",
-      "inputs": [
-        "markdown"
-      ],
-      "license": "MIT",
-      "name": "Clean Report",
-      "outputs": [
-        "pdf"
-      ],
-      "path": "packs/com.klippster.clean-report",
-      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.clean-report/sample.png",
-      "provider": "template",
-      "version": "1.0.0"
-    },
-    {
-      "author": "Klippster",
-      "description": "A code-forward documentation theme: Heros sans body, teal headings, and Inconsolata code in a shaded box.",
-      "files": [
-        {
-          "name": "README.md",
-          "sha256": "e41f66813bb4afb51f176b19ff52209c05d4e29d75cd9c10d0b3d8665563bc82",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.tech-docs/README.md"
-        },
-        {
-          "name": "klippster.json",
-          "sha256": "2d85e96c9e7329650e1bf037c8ff82ce2f6f06be34711cd63b7a8f93a868c2cb",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.tech-docs/klippster.json"
-        },
-        {
-          "name": "theme.latex",
-          "sha256": "77c43d76d7259cc2f5aaa47689b7c00f580d2d1b9081206ed768b85e41cc46cd",
-          "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/com.klippster.tech-docs/theme.latex"
-        }
-      ],
-      "id": "com.klippster.tech-docs",
-      "inputs": [
-        "markdown"
-      ],
-      "license": "MIT",
-      "name": "Tech Docs",
-      "outputs": [
-        "pdf"
-      ],
-      "path": "packs/com.klippster.tech-docs",
-      "preview": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/previews/com.klippster.tech-docs/sample.png",
-      "provider": "template",
-      "version": "1.0.0"
     }
   ],
-  "registrySerial": 3,
+  "registrySerial": 6,
   "schemaVersion": 1
 }
