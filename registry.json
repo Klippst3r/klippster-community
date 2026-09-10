@@ -74,7 +74,7 @@
       "files": [
         {
           "name": "README.md",
-          "sha256": "a9e3ca6b092d9da5986b7daa6825508655802165c59361bde51e942b1c88d3eb",
+          "sha256": "7423b679a6a72a4f3020bd2a08e08643ac0bde356574943387f3a31675cb3019",
           "url": "https://raw.githubusercontent.com/Klippst3r/klippster-community/main/packs/app.klippster.svg-optimize/README.md"
         },
         {
@@ -169,6 +169,6 @@
       "version": "1.0.0"
     }
   ],
-  "registrySerial": 5,
+  "registrySerial": 6,
   "schemaVersion": 1
 }
