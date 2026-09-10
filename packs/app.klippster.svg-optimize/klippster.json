@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.klippster.app/v1/klippster.json",
-  "id": "com.klippster.svg-optimize",
+  "id": "app.klippster.svg-optimize",
   "name": "Optimize SVG",
   "version": "1.0.0",
   "author": "Klippster",
